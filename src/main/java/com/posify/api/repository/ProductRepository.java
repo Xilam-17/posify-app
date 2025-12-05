@@ -9,4 +9,6 @@ import com.posify.api.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory_Id(Long categoryId);
+
+    List<Product> findByProductNameContainingIgnoreCase(String keyword);
 }

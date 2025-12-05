@@ -33,7 +33,7 @@ public class ProductController {
         } else {
             products = productService.getAllProducts();
         }
-        return ResponseEntity.ok(products);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/category/{categoryId}/product/{productId}/list")
@@ -41,7 +41,19 @@ public class ProductController {
             @PathVariable Long categoryId,
             @PathVariable Long productId
     ) {
-        return ResponseEntity.ok(productService.getProductById(categoryId, productId));
+        return new ResponseEntity<>(productService.getProductById(categoryId, productId), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> searchProducts(
+            @RequestParam(name = "keyword", required = false) String keyword) {
+
+        if (keyword == null || keyword.isEmpty()) {
+            return new ResponseEntity<>(List.of(), HttpStatus.OK);
+        }
+
+        List<ProductDto> products = productService.searchProducts(keyword);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PutMapping("/category/{categoryId}/product/{productId}/update")
@@ -49,13 +61,13 @@ public class ProductController {
                                                     @RequestBody ProductDto productDto) {
 
         ProductDto updated = productService.updateProduct(categoryId, productId, productDto);
-        return ResponseEntity.ok(updated);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/category/{categoryId}/product/{productId}/delete")
     public ResponseEntity<String> deleteProduct(@PathVariable Long categoryId, @PathVariable Long productId) {
 
         productService.deleteProduct(categoryId, productId);
-        return ResponseEntity.ok("Product deleted successfully.");
+        return new ResponseEntity<>("Product deleted successfully.", HttpStatus.OK);
     }
 }

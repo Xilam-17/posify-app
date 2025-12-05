@@ -98,4 +98,16 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.delete(product);
     }
+
+    @Override
+    public List<ProductDto> searchProducts(String keyword) {
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(keyword);
+
+        List<ProductDto> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(ProductMappers.mapToDto(product));
+        }
+        return dtos;
+    }
 }
