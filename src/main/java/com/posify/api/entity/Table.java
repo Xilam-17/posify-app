@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@jakarta.persistence.Table(name = "tables")
+@jakarta.persistence.Table(name = "posify_tables")
 public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,6 @@ public class Table {
     @Column(nullable = false)
     private TableStatus status = TableStatus.FREE;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "table_products",
-            joinColumns = @JoinColumn(name = "table_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @OneToMany(mappedBy = "table", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 }

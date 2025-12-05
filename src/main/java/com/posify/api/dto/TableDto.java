@@ -2,7 +2,6 @@ package com.posify.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Setter
@@ -11,5 +10,6 @@ public class TableDto {
     private Long id;
     private String tableNumber;
     private String status;
-    private List<ProductDto> products;
+
+    private List<OrderResponseDto> orders;
 }
