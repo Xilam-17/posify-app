@@ -1,7 +1,9 @@
 package com.posify.api.serviceImpl;
 
-import java.util.ArrayList; // Need to explicitly import ArrayList now
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.posify.api.dto.ProductDto;
@@ -53,28 +55,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        List<ProductDto> dtos = new ArrayList<>();
-        for (Product product : products) {
-            dtos.add(ProductMappers.mapToDto(product));
-        }
-        return dtos;
+        return products.stream()
+                .map(ProductMappers::mapToDto)
+                .toList();
     }
 
     @Override
     public List<ProductDto> getProductsByCategory(Long categoryId) {
         List<Product> products = productRepository.findByCategory_Id(categoryId);
-        List<ProductDto> dtos = new ArrayList<>();
-        for (Product product : products) {
-            dtos.add(ProductMappers.mapToDto(product));
-        }
-        return dtos;
+              return products.stream()
+                .map(ProductMappers::mapToDto)
+                .toList();
     }
 
     @Override
     public ProductDto getProductById(Long categoryId, Long productId) {
         Product product = getProduct(productId);
         validateCategoryOwnership(categoryId, product);
-        return ProductMappers.mapToDto(product);
+        ProductDto productDto = ProductMappers.mapToDto(product);
+        productDto.setCategoryId(categoryId);
+
+        return productDto;
     }
 
     @Override
@@ -101,13 +102,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> searchProducts(String keyword) {
-        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(keyword);
-
-        List<ProductDto> dtos = new ArrayList<>();
-
-        for (Product product : products) {
-            dtos.add(ProductMappers.mapToDto(product));
-        }
-        return dtos;
+        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream()
+                .map(ProductMappers::mapToDto)
+                .collect(Collectors.toList());
     }
 }

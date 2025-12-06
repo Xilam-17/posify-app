@@ -11,5 +11,5 @@ public class TableDto {
     private String tableNumber;
     private String status;
 
-    private List<OrderResponseDto> orders;
+    private List<OrderDto> orders;
 }

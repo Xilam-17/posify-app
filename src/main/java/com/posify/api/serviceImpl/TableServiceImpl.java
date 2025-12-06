@@ -2,7 +2,6 @@ package com.posify.api.serviceImpl;
 
 import com.posify.api.dto.TableDto;
 import com.posify.api.entity.Table;
-import com.posify.api.entity.TableStatus;
 import com.posify.api.mappers.TableMappers;
 import com.posify.api.repository.ProductRepository;
 import com.posify.api.repository.TableRepository;
@@ -35,7 +34,7 @@ public class TableServiceImpl implements TableService {
         List<Table> tables = tableRepository.findAll();
         return tables.stream()
                 .map(TableMappers::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -43,11 +42,11 @@ public class TableServiceImpl implements TableService {
         Table table = tableRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Table not found with id: " + id));
 
-        Table updatedEntity = TableMappers.mapToEntity(tableDto);
+        table.setTableNumber(tableDto.getTableNumber());
 
-        table.setTableNumber(updatedEntity.getTableNumber());
-        table.setStatus(updatedEntity.getStatus());
-        table.setProducts(updatedEntity.getProducts());
+        if (tableDto.getStatus() != null) {
+            table.setStatus(com.posify.api.entity.TableStatus.valueOf(tableDto.getStatus()));
+        }
 
         Table savedTable = tableRepository.save(table);
         return TableMappers.mapToDto(savedTable);

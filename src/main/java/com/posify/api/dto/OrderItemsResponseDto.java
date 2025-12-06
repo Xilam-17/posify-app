@@ -8,9 +8,7 @@ import lombok.Setter;
 public class OrderItemsResponseDto {
     private Long id;
     private Integer quantity;
-    private Double unitPrice;      // Price at the time of order
-    private Double subtotal;       // quantity * unitPrice
-
-    // Details of the product ordered (often a simple DTO subset)
+    private Double unitPrice;
+    private Double subtotal;
     private ProductDto productDetails;
 }
