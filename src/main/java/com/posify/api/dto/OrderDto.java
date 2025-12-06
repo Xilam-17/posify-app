@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDto {
     private Long id;
-    private LocalDateTime orderTime;
     private Double totalAmount;
     private String status;
     private Long tableId;

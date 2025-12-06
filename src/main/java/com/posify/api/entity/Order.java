@@ -12,11 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @jakarta.persistence.Table(name = "posify_orders")
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime orderTime = LocalDateTime.now();
     private Double totalAmount = 0.0;
 
     @Enumerated(EnumType.STRING)

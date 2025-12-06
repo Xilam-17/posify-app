@@ -18,7 +18,6 @@ public class OrderMappers {
         dto.setId(order.getId());
         dto.setTotalAmount(order.getTotalAmount());
         dto.setStatus(order.getStatus().name());
-        dto.setOrderTime(order.getOrderTime());
 
         if (order.getTable() != null) {
             dto.setTableId(order.getTable().getId());
@@ -40,7 +39,6 @@ public class OrderMappers {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setTotalAmount(orderDto.getTotalAmount());
-        order.setOrderTime(orderDto.getOrderTime());
 
         if (orderDto.getStatus() != null) {
             order.setStatus(OrderStatus.valueOf(orderDto.getStatus()));

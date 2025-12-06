@@ -15,7 +15,6 @@ public class ProductMappers {
             dto.setCategoryId(product.getCategory().getId());
             dto.setCategoryName(product.getCategory().getName());
         }
-
         return dto;
     }
 
