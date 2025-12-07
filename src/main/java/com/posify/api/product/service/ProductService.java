@@ -42,6 +42,8 @@ public class ProductService implements IProductService {
     public ProductResponse createProduct(Long categoryId, ProductRequest productRequest) {
         Category category = getCategory(categoryId);
 
+
+
         Product product = Product.mapToEntity(productRequest);
         product.setCategory(category);
 
