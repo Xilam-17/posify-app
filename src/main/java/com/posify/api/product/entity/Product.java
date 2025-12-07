@@ -26,12 +26,14 @@ public class Product {
     private String productName;
     private Double price;
     private String description;
+    private Long imgId;
 
     public static Product mapToEntity(ProductResponse response) {
         Product product = new Product();
         product.setProductName(response.getProductName());
         product.setPrice(response.getPrice());
         product.setDescription(response.getDescription());
+        product.setImgId(response.getImgId());
         return product;
     }
 

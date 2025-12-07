@@ -1,6 +1,7 @@
 package com.posify.api.product.request;
 
 import com.posify.api.category.entity.Category;
+import com.posify.api.product.entity.Product;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

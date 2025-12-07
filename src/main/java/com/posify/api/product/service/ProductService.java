@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.posify.api.category.entity.Category;
 import com.posify.api.category.repository.CategoryRepository;
 
+import static com.posify.api.product.entity.Product.mapToEntity;
+
 @Service
 public class ProductService implements IProductService {
 
@@ -41,21 +43,20 @@ public class ProductService implements IProductService {
     @Override
     public ProductResponse createProduct(Long categoryId, ProductRequest productRequest) {
         Category category = getCategory(categoryId);
-
-
-
-        Product product = Product.mapToEntity(productRequest);
-        product.setCategory(category);
-
-        Product saved = productRepository.save(product);
-        return ProductMappers.mapToDto(saved);
+        Product product = new Product();
+        product.setProductName(productRequest.getProductName());
+        product.setPrice(productRequest.getPrice());
+        product.setImgId(productRequest.getImgId());
+        product.setDescription(productRequest.getDescription());
+        Product savedProduct = productRepository.save(product);
+        return ProductResponse.mapToDto(savedProduct);
     }
 
     @Override
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream()
-                .map(ProductMappers::mapToDto)
+                .map(ProductResponse::mapToDto)
                 .toList();
     }
 
@@ -63,7 +64,7 @@ public class ProductService implements IProductService {
     public List<ProductResponse> getProductsByCategory(Long categoryId) {
         List<Product> products = productRepository.findByCategory_Id(categoryId);
               return products.stream()
-                .map(ProductMappers::mapToDto)
+                .map(ProductResponse::mapToDto)
                 .toList();
     }
 
@@ -71,7 +72,7 @@ public class ProductService implements IProductService {
     public ProductResponse getProductById(Long categoryId, Long productId) {
         Product product = getProduct(productId);
         validateCategoryOwnership(categoryId, product);
-        ProductRequest productRequest = ProductMappers.mapToDto(product);
+        ProductRequest productRequest = ProductResponse.mapToDto(product);
         productRequest.setCategoryId(categoryId);
 
         return productRequest;

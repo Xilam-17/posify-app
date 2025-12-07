@@ -20,7 +20,9 @@ public class ProductController {
     }
 
     @PostMapping("/category/{categoryId}/product/create")
-    public ResponseEntity<ProductResponse> createProduct(@PathVariable Long categoryId, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> createProduct(
+            @PathVariable Long categoryId,
+            @RequestBody ProductRequest productRequest) {
         return new ResponseEntity<>(IProductService.createProduct(categoryId, productRequest), HttpStatus.CREATED);
     }
 

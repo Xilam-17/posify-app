@@ -1,6 +1,7 @@
 package com.posify.api.product.response;
 
 import com.posify.api.product.entity.Product;
+import com.posify.api.product.request.ProductRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,14 +13,15 @@ public class ProductResponse {
     private Double price;
     private String categoryName;
     private String description;
+    private Long imgId;
 
     public static ProductResponse mapToDto(Product product) {
         ProductResponse dto = new ProductResponse();
-        dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());
         dto.setCategoryName(product.getCategory().getName());
+        dto.setImgId(product.getImgId());
         return dto;
     }
 }
