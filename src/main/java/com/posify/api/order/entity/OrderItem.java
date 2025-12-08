@@ -2,7 +2,6 @@ package com.posify.api.order.entity;
 
 import com.posify.api.product.entity.Product;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
@@ -17,6 +16,7 @@ public class OrderItem {
     private Long id;
     private Integer quantity;
     private Double priceAtOrder;
+    private Double totalAmount = 0.0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)

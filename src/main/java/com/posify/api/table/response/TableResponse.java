@@ -1,6 +1,6 @@
 package com.posify.api.table.response;
 
-import com.posify.api.order.response.OrderDto;
+import com.posify.api.order.response.OrderResponse;
 import com.posify.api.table.entity.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ public class TableResponse {
     private String tableNumber;
     private String status;
 
-    private List<OrderDto> orders;
+    private List<OrderResponse> orders;
 
     public static TableResponse mapToDto(Table table) {
         TableResponse response = new TableResponse();

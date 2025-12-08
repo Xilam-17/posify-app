@@ -7,7 +7,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class CreateOrderRequestDto {
-    private Long tableId;
-    private List<OrderItemDto> items;
+public class OrderRequest {
+   private Long tableId;
+   private List<OrderItemRequest> items;
 }

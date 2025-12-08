@@ -1,6 +1,7 @@
 package com.posify.api.table.entity;
 
 import com.posify.api.order.entity.Order;
+import com.posify.api.product.entity.Product;
 import com.posify.api.table.request.TableRequest;
 import com.posify.api.table.response.TableResponse;
 import jakarta.persistence.*;

@@ -1,5 +1,6 @@
 package com.posify.api.order.entity;
 
+import com.posify.api.product.entity.Product;
 import com.posify.api.table.entity.Table;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double totalAmount = 0.0;
+    private Double finalTotalAmount;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.OPEN;
@@ -26,5 +27,5 @@ public class Order {
     private Table table;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items;
+    private List<OrderItem> orderItems;
 }

@@ -1,6 +1,7 @@
 package com.posify.api.product.entity;
 
 import com.posify.api.category.entity.Category;
+import com.posify.api.order.entity.Order;
 import com.posify.api.order.entity.OrderItem;
 import com.posify.api.product.request.ProductRequest;
 import com.posify.api.product.response.ProductResponse;
