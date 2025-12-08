@@ -17,6 +17,7 @@ public class ProductResponse {
 
     public static ProductResponse mapToDto(Product product) {
         ProductResponse dto = new ProductResponse();
+        dto.setProductId(product.getProductId());
         dto.setProductName(product.getProductName());
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());

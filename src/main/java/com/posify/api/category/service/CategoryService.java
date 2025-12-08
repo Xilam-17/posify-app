@@ -20,8 +20,10 @@ public class CategoryService implements ICategoryService {
     }
 
     private void isAlreadyExist(String name) {
-        Category category = categoryRepository.findByName(name)
-                .orElseThrow(()-> new RuntimeException("Category already exist by name :" + name));
+        categoryRepository.findByName(name)
+                .ifPresent(c -> {
+                    throw new RuntimeException("Category already exist by name: " + name);
+                });
     }
 
     private Category findById(Long id) {
@@ -43,12 +45,7 @@ public class CategoryService implements ICategoryService {
 
         List<Category> categories = categoryRepository.findAll();
         return categories.stream()
-                .map(category -> {
-                          CategoryResponse result =  CategoryResponse.mapToDto(category);
-                            log.info(category.getName());
-                            return result;
-                        }
-                )
+                .map(CategoryResponse::mapToDto)
                 .toList();
     }
 

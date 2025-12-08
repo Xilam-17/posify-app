@@ -13,11 +13,12 @@ public interface IProductService {
 	
 	List<ProductResponse> getAllProducts();
 
-	ProductResponse getProductById(Long categoryId, Long productId);
+    ProductResponse getProductById(Long categoryId, Long productId);
+
+    List<ProductResponse> searchProducts(String keyword);
 
 	ProductResponse updateProduct(Long categoryId, Long productId, ProductRequest productRequest);
 
 	void deleteProduct(Long categoryId, Long productId);
 
-    List<ProductResponse> searchProducts(String keyword);
 }

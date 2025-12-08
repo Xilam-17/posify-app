@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.posify.api.category.entity.Category;
 import com.posify.api.category.repository.CategoryRepository;
 
-import static com.posify.api.product.entity.Product.mapToEntity;
-
 @Service
 public class ProductService implements IProductService {
 
@@ -40,14 +38,25 @@ public class ProductService implements IProductService {
         }
     }
 
+    private void isAlreadyExist(String productName) {
+        productRepository.findByProductName(productName)
+                .ifPresent(p -> {
+                    throw new RuntimeException("Product already exists with name: " + productName);
+                });
+    }
+
     @Override
     public ProductResponse createProduct(Long categoryId, ProductRequest productRequest) {
+        isAlreadyExist(productRequest.getProductName());
         Category category = getCategory(categoryId);
         Product product = new Product();
+
         product.setProductName(productRequest.getProductName());
         product.setPrice(productRequest.getPrice());
         product.setImgId(productRequest.getImgId());
         product.setDescription(productRequest.getDescription());
+        product.setCategory(category);
+
         Product savedProduct = productRepository.save(product);
         return ProductResponse.mapToDto(savedProduct);
     }
@@ -70,26 +79,33 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductResponse getProductById(Long categoryId, Long productId) {
+        Category category = getCategory(categoryId);
         Product product = getProduct(productId);
         validateCategoryOwnership(categoryId, product);
-        ProductRequest productRequest = ProductResponse.mapToDto(product);
-        productRequest.setCategoryId(categoryId);
+        return ProductResponse.mapToDto(product);
+    }
 
-        return productRequest;
+    @Override
+    public List<ProductResponse> searchProducts(String keyword) {
+        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream()
+                .map(ProductResponse::mapToDto)
+                .toList();
     }
 
     @Override
     public ProductResponse updateProduct(Long categoryId, Long productId, ProductRequest productRequest) {
+        isAlreadyExist(productRequest.getProductName());
         Category category = getCategory(categoryId);
         Product product = getProduct(productId);
         validateCategoryOwnership(categoryId, product);
 
         product.setProductName(productRequest.getProductName());
         product.setPrice(productRequest.getPrice());
-        product.setCategory(category);
+        product.setImgId(productRequest.getImgId());
+        product.setDescription(productRequest.getDescription());
 
         Product updated = productRepository.save(product);
-        return ProductMappers.mapToDto(updated);
+        return ProductResponse.mapToDto(updated);
     }
 
     @Override
@@ -99,10 +115,4 @@ public class ProductService implements IProductService {
         productRepository.delete(product);
     }
 
-    @Override
-    public List<ProductResponse> searchProducts(String keyword) {
-        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream()
-                .map(ProductMappers::mapToDto)
-                .toList();
-    }
 }

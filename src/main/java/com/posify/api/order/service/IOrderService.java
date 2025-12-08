@@ -1,8 +1,6 @@
 package com.posify.api.order.service;
 
 import com.posify.api.order.repository.OrderRepository;
-import com.posify.api.mappers.OrderMappers;
-import com.posify.api.mappers.OrderItemMappers;
 import com.posify.api.product.repository.ProductRepository;
 import com.posify.api.table.repository.TableRepository;
 import org.springframework.stereotype.Service;

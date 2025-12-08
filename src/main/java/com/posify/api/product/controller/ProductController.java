@@ -13,38 +13,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/menu")
 public class ProductController {
 
-    private final IProductService IProductService;
+    private final IProductService service;
 
-    public ProductController(IProductService IProductService) {
-        this.IProductService = IProductService;
+    public ProductController(IProductService service) {
+        this.service = service;
     }
 
     @PostMapping("/category/{categoryId}/product/create")
     public ResponseEntity<ProductResponse> createProduct(
             @PathVariable Long categoryId,
             @RequestBody ProductRequest productRequest) {
-        return new ResponseEntity<>(IProductService.createProduct(categoryId, productRequest), HttpStatus.CREATED);
+        ProductResponse created = service.createProduct(categoryId, productRequest);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/product/list")
     public ResponseEntity<List<ProductResponse>> getProductList(@RequestParam(required = false) Long categoryId) {
-
         List<ProductResponse> products;
-
-        if (categoryId != null) {
-            products = IProductService.getProductsByCategory(categoryId);
+        if(categoryId != null) {
+            products = service.getProductsByCategory(categoryId);
         } else {
-            products = IProductService.getAllProducts();
+            products = service.getAllProducts();
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryId}/product/{productId}/list")
+    @GetMapping("/category/{categoryId}/product/{productId}/product-details")
     public ResponseEntity<ProductResponse> getProductById(
             @PathVariable Long categoryId,
-            @PathVariable Long productId
-    ) {
-        return new ResponseEntity<>(IProductService.getProductById(categoryId, productId), HttpStatus.OK);
+            @PathVariable Long productId) {
+        ProductResponse products = service.getProductById(categoryId, productId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -55,22 +54,23 @@ public class ProductController {
             return new ResponseEntity<>(List.of(), HttpStatus.OK);
         }
 
-        List<ProductResponse> products = IProductService.searchProducts(keyword);
+        List<ProductResponse> products = service.searchProducts(keyword);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PutMapping("/category/{categoryId}/product/{productId}/update")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long categoryId, @PathVariable Long productId,
-                                                        @RequestBody ProductRequest productRequest) {
-
-        ProductResponse updated = IProductService.updateProduct(categoryId, productId, productRequest);
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable Long categoryId,
+            @PathVariable Long productId,
+            @RequestBody ProductRequest productRequest) {
+        ProductResponse updated = service.updateProduct(categoryId, productId, productRequest);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/category/{categoryId}/product/{productId}/delete")
     public ResponseEntity<String> deleteProduct(@PathVariable Long categoryId, @PathVariable Long productId) {
 
-        IProductService.deleteProduct(categoryId, productId);
+        service.deleteProduct(categoryId, productId);
         return new ResponseEntity<>("Product deleted successfully.", HttpStatus.OK);
     }
 }

@@ -1,6 +1,8 @@
 package com.posify.api.table.entity;
 
 import com.posify.api.order.entity.Order;
+import com.posify.api.table.request.TableRequest;
+import com.posify.api.table.response.TableResponse;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.*;
@@ -25,4 +27,13 @@ public class Table {
 
     @OneToMany(mappedBy = "table", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
+
+    public static Table mapToEntity(TableRequest request) {
+        Table table = new Table();
+        if(request.getId() != null) {
+            table.setId(request.getId());
+        }
+        table.setTableNumber(request.getTableNumber());
+        return table;
+    }
 }
