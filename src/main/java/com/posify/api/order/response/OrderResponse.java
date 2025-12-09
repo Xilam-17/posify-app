@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
-import java.util.stream.Collectors; // <-- NEW Import needed for streaming
 
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class OrderResponse {
 
         List<OrderItemResponse> itemResponses = order.getOrderItems().stream()
                 .map(OrderItemResponse::mapToDto)
-                .collect(Collectors.toList());
+                        .toList();
 
         response.setItems(itemResponses);
         return response;

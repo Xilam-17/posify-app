@@ -1,6 +1,5 @@
 package com.posify.api.order.controller;
 
-import com.posify.api.order.entity.Order;
 import com.posify.api.order.request.OrderRequest;
 import com.posify.api.order.response.OrderResponse;
 import com.posify.api.order.service.IOrderService;
@@ -22,6 +21,12 @@ public class OrderController {
     public ResponseEntity<OrderResponse> saveOrder(@PathVariable Long id, @RequestBody OrderRequest request) {
         request.setTableId(id);
         return new ResponseEntity<>(service.saveOrder(id,request), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/table/order/{orderId}/check-out")
+    public ResponseEntity<OrderResponse> checkOutOrder(@PathVariable Long orderId) {
+        OrderResponse response = service.checkOutOrder(orderId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

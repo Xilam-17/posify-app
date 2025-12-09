@@ -7,4 +7,6 @@ import com.posify.api.order.response.OrderResponse;
 public interface IOrderService {
 
     OrderResponse saveOrder(Long id, OrderRequest request);
+
+    OrderResponse checkOutOrder(Long orderId);
 }

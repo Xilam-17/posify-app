@@ -3,7 +3,6 @@ package com.posify.api.category.controller;
 import java.util.List;
 
 import com.posify.api.category.response.CategoryResponse;
-import com.posify.api.category.service.CategoryService;
 import com.posify.api.category.request.CategoryRequest;
 import com.posify.api.category.service.ICategoryService;
 import org.springframework.http.HttpStatus;

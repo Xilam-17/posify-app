@@ -2,6 +2,7 @@ package com.posify.api.order.service;
 
 import com.posify.api.order.entity.Order;
 import com.posify.api.order.entity.OrderItem;
+import com.posify.api.order.entity.OrderStatus;
 import com.posify.api.order.request.OrderItemRequest;
 import com.posify.api.order.request.OrderRequest;
 import com.posify.api.order.response.OrderResponse;
@@ -11,10 +12,12 @@ import com.posify.api.order.repository.OrderRepository;
 import com.posify.api.order.repository.OrderItemRepository;
 import com.posify.api.product.repository.ProductRepository;
 import com.posify.api.table.repository.TableRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService implements IOrderService {
@@ -37,6 +40,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @Transactional
     public OrderResponse saveOrder(Long id, OrderRequest request) {
         Table table = tableRepository.findById(request.getTableId())
                 .orElseThrow(() -> new IllegalArgumentException("Table not found!"));
@@ -51,7 +55,7 @@ public class OrderService implements IOrderService {
 
         for (OrderItemRequest itemRequest : request.getItems()) {
             Product product = productRepository.findById(itemRequest.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found with ID : " + itemRequest.getProductId()));
+                    .orElseThrow(() -> new RuntimeException("Product not found with ID : " + itemRequest.getProductId()));
 
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(product);
@@ -76,4 +80,19 @@ public class OrderService implements IOrderService {
 
         return OrderResponse.mapToDto(savedOrder);
     }
+
+    @Override
+    @Transactional
+    public OrderResponse checkOutOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+
+        if (order.getStatus() != OrderStatus.OPEN) {
+            throw new IllegalStateException("Order ID " + orderId + " is already " + order.getStatus());
+        }
+
+        order.setStatus(OrderStatus.PAID);
+        Order checkedOutOrder = orderRepository.save(order);
+        return OrderResponse.mapToDto(checkedOutOrder);
     }
+}

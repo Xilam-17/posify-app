@@ -1,12 +1,11 @@
 package com.posify.api.order.response;
 
-import com.posify.api.order.entity.OrderItem; // <-- NEW Import needed for mapping
+import com.posify.api.order.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor; // Added for completeness
-import lombok.AllArgsConstructor; // Added for completeness
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-// Added NoArgsConstructor and AllArgsConstructor for completeness
 @Setter
 @Getter
 @NoArgsConstructor

@@ -1,6 +1,5 @@
 package com.posify.api.order.entity;
 
-import com.posify.api.product.entity.Product;
 import com.posify.api.table.entity.Table;
 import jakarta.persistence.*;
 import lombok.*;
