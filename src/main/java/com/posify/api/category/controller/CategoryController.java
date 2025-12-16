@@ -5,6 +5,7 @@ import java.util.List;
 import com.posify.api.category.response.CategoryResponse;
 import com.posify.api.category.request.CategoryRequest;
 import com.posify.api.category.service.ICategoryService;
+import com.posify.api.user.model.Users;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
